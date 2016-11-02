@@ -9,12 +9,7 @@ class YPBT_API < Sinatra::Base
 
   Econfig.env = settings.environment.to_s
   Econfig.root = settings.root
-=begin
-  FaceGroup::FbApi
-    .config
-    .update(client_id: config.FB_CLIENT_ID,
-            client_secret: config.FB_CLIENT_SECRET)
-=end
+
   API_VER = 'api/v0.1.4'
 
   get '/?' do
