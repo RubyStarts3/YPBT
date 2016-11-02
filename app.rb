@@ -32,31 +32,25 @@ class YPBT_API < Sinatra::Base
       halt 404, "Video (video_id: #{video_id}) not found"
     end
   end
-=begin
-  get "/#{API_VER}/group/:fb_group_id/feed/?" do
-    group_id = params[:fb_group_id]
+
+  get "/#{API_VER}/video/:video_id/commentthreads/?" do
+    video_id = params[:video_id]
     begin
-      group = FaceGroup::Group.find(id: group_id)
+      video = YoutubeVideo::Video.find(video_id: video_id)
 
       content_type 'application/json'
       {
-        feed: group.feed.postings.map do |post|
-          posting = { posting_id: post.id }
-          posting[:message] = post.message if post.message
-          if post.attachment
-            posting[:attachment] = {
-              title: post.attachment.title,
-              url: post.attachment.url,
-              description: post.attachment.description
-            }
-          end
+        commentthreads: video.commentthreads.first(3).map do |comment|
+          content = { author_name: comment.author.author_name }
+          content[:comment_text] = comment.text_display
+          content[:like_count] = comment.author.like_count
+          content[:author_channel_url] = comment.author.author_channel_url
 
-          { posting: posting }
+          { comment: content }
         end
       }.to_json
     rescue
       halt 404, "Cannot group (id: #{group_id}) feed"
     end
   end
-=end
 end
