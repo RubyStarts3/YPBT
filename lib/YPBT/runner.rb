@@ -16,7 +16,6 @@ module YoutubeVideo
     end
 
     def self.output_info(video)
-      return 'Nothing found. (Invalid video id or api-key)' if video.nil?
       title = video.title
       separator = Array.new(video.title.length) { '-' }.join
       video_info =
